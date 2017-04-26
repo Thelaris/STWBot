@@ -60,6 +60,7 @@
     <Compile Include="MessageEvents.cs" />
     <Compile Include="UserEvents.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="RoleEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

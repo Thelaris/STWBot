@@ -9,11 +9,20 @@ namespace STWBot
 	public static class stwb
 	{
 		//public static Discord.DiscordClient bot = new Discord.DiscordClient();
-		public static ChannelEvents ce = new ChannelEvents();
-		public static ServerEvents s = new ServerEvents();
-		public static InputCommands ic = new InputCommands();
-		public static UserEvents ue = new UserEvents();
-		public static MessageEvents me = new MessageEvents();
+		//public static ChannelEvents ce = new ChannelEvents();
+		//public static ServerEvents se = new ServerEvents();
+		//public static InputCommands ic = new InputCommands();
+		//public static UserEvents ue = new UserEvents();
+		//public static MessageEvents me = new MessageEvents();
+
+
+
+
+		public static string logChanName = "server-log";
+		static public string logLineBreak = "---------------------";
+
+		public static bool logCreatedChan = true;
+		public static bool logDestroyedChan = true;
 
 
 
@@ -30,19 +39,19 @@ namespace STWBot
 			//Events
 
 			/* --CHANNEL EVENTS-- */
-			//stwb.bot.ChannelCreated;
-			//stwb.bot.ChannelDestroyed;
-			//stwb.bot.ChannelUpdated;
+			bot.ChannelCreated += ChannelEvents.bot_ChannelCreated;
+			bot.ChannelDestroyed += ChannelEvents.bot_ChannelDestroyed;
+			bot.ChannelUpdated += ChannelEvents.bot_ChannelUpdated;
 
 			/* --MESSAGE EVENTS-- */
-			//stwb.bot.MessageDeleted;
-			bot.MessageReceived += stwb.me.bot_MessageReceived;
-			//stwb.bot.MessageUpdated;
+			bot.MessageDeleted += MessageEvents.bot_MessageDeleted;
+			bot.MessageReceived += MessageEvents.bot_MessageReceived;
+			bot.MessageUpdated += MessageEvents.bot_MessageUpdated;
 
 			/* --ROLE EVENTS-- */
-			//stwb.bot.RoleCreated;
-			//stwb.bot.RoleDeleted;
-			//stwb.bot.RoleUpdated;
+			bot.RoleCreated += RoleEvents.bot_RoleCreated;
+			bot.RoleDeleted += RoleEvents.bot_RoleDeleted;
+			bot.RoleUpdated += RoleEvents.bot_RoleUpdated;
 
 			/* --SERVER EVENTS-- */
 			//stwb.bot.JoinedServer;
@@ -54,12 +63,12 @@ namespace STWBot
 
 			/* --USER EVENTS-- */
 			//stwb.bot.ProfileUpdated;
-			//stwb.bot.UserBanned;
+			bot.UserBanned += UserEvents.bot_UserBanned;
 			//stwb.bot.UserIsTyping;
-			bot.UserJoined += stwb.ue.bot_UserJoined;
-			//stwb.bot.UserLeft;
-			//stwb.bot.UserUnbanned;
-			bot.UserUpdated += stwb.ue.bot_UserUpdated;
+			bot.UserJoined += UserEvents.bot_UserJoined;
+			bot.UserLeft += UserEvents.bot_UserLeft;
+			bot.UserUnbanned += UserEvents.bot_UserUnbanned;
+			bot.UserUpdated += UserEvents.bot_UserUpdated;
 
 
 			// Connect to Discord

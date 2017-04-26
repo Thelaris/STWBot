@@ -6,11 +6,29 @@ namespace STWBot
 {
 	public class UserEvents
 	{
+		//static public string lineBreakStart = "---------------------\n";
+		//static public string lineBreakEnd = "---------------------"; --now being used as global in stwb
+
 		public UserEvents()
 		{
 		}
 
-		public void bot_UserJoined(object user, Discord.UserEventArgs e)
+		static public void bot_UserBanned(object user, Discord.UserEventArgs e)
+		{
+			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has been BANNED from the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+		}
+
+		static public void bot_UserUnbanned(object user, Discord.UserEventArgs e)
+		{
+			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has been UNBANNED from the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+		}
+
+		static public void bot_UserLeft(object user, Discord.UserEventArgs e)
+		{
+			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has left the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+		}
+
+		static public void bot_UserJoined(object user, Discord.UserEventArgs e)
 		{
 			System.Threading.Thread.Sleep(3000);
 
@@ -20,9 +38,14 @@ namespace STWBot
 
 				e.User.AddRoles(membersRole);
 			}
+
+			//e.Server.FindChannels(stwb.logChanName).First().SendMessage("```" + DateTime.Now.ToString("G") + "\n" + "- New user: @" + e.User.Name + " has joined the server. User ID: " + e.User.Id + "```");
+			//Discord.Message message = e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention).Result;
+			//string username = e.User.Id.ToString();
+			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has JOINED the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
 		}
 
-		public void bot_UserUpdated(object user, Discord.UserUpdatedEventArgs e)
+		static public void bot_UserUpdated(object user, Discord.UserUpdatedEventArgs e)
 		{
 			string usertype = "";
 			if (e.After.Roles.Count() < 2)
@@ -33,11 +56,12 @@ namespace STWBot
 			{
 				e.Server.FindChannels("use-bots-here").FirstOrDefault().SendMessage(usertype);
 			}
+			//e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention);
+			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has had their status updated. User ID: " + e.After.Id + "```" + stwb.logLineBreak);
 		}
 
 		static void SetRoleIfPug(object user, Discord.UserUpdatedEventArgs e)
 		{
-
 			//Discord.Role everyoneRole = e.Server.FindRoles("@everyone").FirstOrDefault();
 			if (e.After.Roles.Count() > 1) return;
 
