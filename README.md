@@ -1,0 +1,2 @@
+# STWBot
+Discord bot
