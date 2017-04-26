@@ -19,7 +19,10 @@ namespace STWBot
 
 
 		public static string logChanName = "server-log";
-		static public string logLineBreak = "---------------------";
+		public static string logLineBreak = "---------------------";
+
+		public static string announcementsChanName = "announcements";
+
 
 		public static bool logCreatedChan = true;
 		public static bool logDestroyedChan = true;

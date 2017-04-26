@@ -16,16 +16,19 @@ namespace STWBot
 		static public void bot_UserBanned(object user, Discord.UserEventArgs e)
 		{
 			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has been BANNED from the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+			e.Server.FindChannels(stwb.announcementsChanName).First().SendMessage(e.User.Mention + " has been BANNED from the " + e.Server.Name + " Discord server - The Ban Hammer is in full swing.\nThis user cannot be invited back to this server!");
 		}
 
 		static public void bot_UserUnbanned(object user, Discord.UserEventArgs e)
 		{
 			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has been UNBANNED from the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+			e.Server.FindChannels(stwb.announcementsChanName).First().SendMessage(e.User.Mention + " has been UNBANNED from the " + e.Server.Name + " Discord server - Welcome back!\nRemember, second chances do not come lightly...");
 		}
 
 		static public void bot_UserLeft(object user, Discord.UserEventArgs e)
 		{
-			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has left the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has LEFT the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+			e.Server.FindChannels(stwb.announcementsChanName).First().SendMessage(e.User.Mention + " has LEFT the " + e.Server.Name + " Discord server - We are sorry to see you leave :(");
 		}
 
 		static public void bot_UserJoined(object user, Discord.UserEventArgs e)
@@ -43,6 +46,7 @@ namespace STWBot
 			//Discord.Message message = e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention).Result;
 			//string username = e.User.Id.ToString();
 			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has JOINED the " + e.Server.Name + " Discord server. User ID: " + e.User.Id + "```" + stwb.logLineBreak);
+			e.Server.FindChannels(stwb.announcementsChanName).First().SendMessage(e.User.Mention + " has JOINED the " + e.Server.Name + " Discord server - Welcome!");
 		}
 
 		static public void bot_UserUpdated(object user, Discord.UserUpdatedEventArgs e)
