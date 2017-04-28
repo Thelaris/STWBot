@@ -33,7 +33,7 @@ namespace STWBot
 
 		static public void bot_UserJoined(object user, Discord.UserEventArgs e)
 		{
-			System.Threading.Thread.Sleep(3000);
+			//System.Threading.Thread.Sleep(3000);
 
 			if (e.User.Roles.Count() < 2)
 			{
@@ -60,9 +60,94 @@ namespace STWBot
 			{
 				e.Server.FindChannels("use-bots-here").FirstOrDefault().SendMessage(usertype);
 			}
+
+			string rolesBefore = "";
+			string rolesAfter = "";
+			int i = 1;
+
+			foreach (Discord.Role role in e.Before.Roles)
+			{
+				if (role.Name != "nvoice-303997237011152896" && role.Name!= "nvoice-303999495501381633" && role.Name != "nvoice-304496811442176003" && role.Name != "nvoice-303999622299254784" && role.Name != "nvoice-304498914445492224" && role.Name != "nvoice-305904009414311936" && role.Name != "nvoice-303999693145374722")
+				{
+					if (i == 1)
+					{
+						rolesBefore += role.Name;
+					}
+					else
+					{
+						rolesBefore += ", " + role.Name;
+					}
+					i++;
+				}
+			}
+
+			i = 1;
+
+			foreach (Discord.Role role in e.After.Roles)
+			{
+				if (role.Name != "nvoice-303997237011152896" && role.Name != "nvoice-303999495501381633" && role.Name != "nvoice-304496811442176003" && role.Name != "nvoice-303999622299254784" && role.Name != "nvoice-304498914445492224" && role.Name != "nvoice-305904009414311936" && role.Name != "nvoice-303999693145374722")
+				{
+					if (i == 1)
+					{
+						rolesAfter += role.Name;
+					}
+					else
+					{
+						rolesAfter += ", " + role.Name;
+					}
+					i++;
+				}
+			}
+
 			//e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention);
-			e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has had their status updated. User ID: " + e.After.Id + "```" + stwb.logLineBreak);
+			//e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user has had their status updated. User ID: " + e.After.Id + "```" + stwb.logLineBreak);
+			//e.Server.FindChannels(stwb.logChanName).First().SendMessage("```Nickname: " + e.Before.Nickname + "\nRoles: " + rolesBefore + "\nStatus: " + e.Before.Status + "\nCurrent Game: " + e.Before.CurrentGame.Value.Name + "\nVoice Channel: " + e.Before.VoiceChannel + "```");
+			//e.Server.FindChannels(stwb.logChanName).First().SendMessage("```Nickname: " + e.After.Nickname + "\nRoles: " + rolesAfter + "\nStatus: " + e.After.Status + "\nCurrent Game: " + e.After.CurrentGame.Value.Name + "\nVoice Channel: " + e.After.VoiceChannel + "```");
+
+			if (e.Before.Nickname != e.After.Nickname)
+			{
+				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's NICKNAME updated.\nOLD Nickname: " + e.Before.Nickname + "\nNEW Nickname: " + e.After.Nickname + "```" + stwb.logLineBreak);
+			}
+
+
+			if (rolesBefore != rolesAfter)
+			{
+				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's ROLES updated.\nOLD Roles: " + rolesBefore + "\nNEW Roles: " + rolesAfter + "```" + stwb.logLineBreak);
+			}
+
+
+			if (e.Before.Status != e.After.Status)
+			{
+				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's STATUS updated.\nOLD Status: " + e.Before.Status + "\nNEW Status: " + e.After.Status + "```" + stwb.logLineBreak);
+			}
+
+
+			string beforeCurrentGame = "";
+			string afterCurrentGame = "";
+
+			if (e.Before.CurrentGame.HasValue)
+			{
+				beforeCurrentGame = e.Before.CurrentGame.Value.Name;
+			}
+
+			if (e.After.CurrentGame.HasValue)
+			{
+				afterCurrentGame = e.After.CurrentGame.Value.Name;
+			}
+
+			if (beforeCurrentGame != afterCurrentGame)
+			{
+				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's CURRENT GAME updated.\nOLD Game: " + beforeCurrentGame + "\nNEW Game: " + afterCurrentGame + "```" + stwb.logLineBreak);
+			}
+
+			if (e.Before.VoiceChannel != e.After.VoiceChannel)
+			{
+				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's VOICE CHANNEL updated.\nOLD Voice Channel: " + e.Before.VoiceChannel.Name + "\nNEW Voice Channel: " + e.After.VoiceChannel.Name + "```" + stwb.logLineBreak);
+			} 
 		}
+
+
+
 
 		static void SetRoleIfPug(object user, Discord.UserUpdatedEventArgs e)
 		{

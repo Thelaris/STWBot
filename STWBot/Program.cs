@@ -26,6 +26,7 @@ namespace STWBot
 
 		public static bool logCreatedChan = true;
 		public static bool logDestroyedChan = true;
+		public static bool logUpdatedChan = true;
 
 
 
