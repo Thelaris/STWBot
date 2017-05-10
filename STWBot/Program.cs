@@ -38,7 +38,7 @@ namespace STWBot
 		{
 			var bot = new Discord.DiscordClient();
 
-			string token = "MzA1OTc1MTg4NTA2NDExMDA4.C9-UcA.zgPoklYWBun9_Mxr9j0WSnduL-I";
+			string token = "TOKEN-GOES-HERE";
 
 			//Events
 
