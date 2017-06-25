@@ -32,16 +32,36 @@ namespace STWBot
 		}
 
 		static public void bot_UserJoined(object user, Discord.UserEventArgs e)
-		{
+		{/*
+			Discord.Channel pugChannel = e.Server.GetChannel(Convert.ToUInt64(306107185145053194));
 			//System.Threading.Thread.Sleep(3000);
-
+			//if (!e.User.IsBot)
+			//{
+				if (e.User.VoiceChannel == pugChannel)
+				{
+					string userID = Convert.ToString(e.User.Id);
+					Discord.Role membersRole = e.Server.FindRoles("PUGS").FirstOrDefault();
+					Console.WriteLine("ADDING " + userID + " TO PUGS");
+					e.User.AddRoles(membersRole);
+				}
+				else
+				{
+					string userID = Convert.ToString(e.User.Id);
+					//Discord.Role membersRole = e.Server.FindRoles("MEMBERS").FirstOrDefault();
+					Console.WriteLine("ADDING " + userID + " TO MEMEBERS");
+					//e.User.AddRoles(e.Server.GetRole(305921894513770499));
+				//e.Server.GetUser(e.User.Id).AddRoles(Convert.ToUInt64(305921894513770499));
+				}
+			//}
+			*/
+			/*
 			if (e.User.Roles.Count() < 2)
 			{
 				Discord.Role membersRole = e.Server.FindRoles("MEMBERS").FirstOrDefault();
 
 				e.User.AddRoles(membersRole);
 			}
-
+			*/
 			//e.Server.FindChannels(stwb.logChanName).First().SendMessage("```" + DateTime.Now.ToString("G") + "\n" + "- New user: @" + e.User.Name + " has joined the server. User ID: " + e.User.Id + "```");
 			//Discord.Message message = e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention).Result;
 			//string username = e.User.Id.ToString();
@@ -51,15 +71,18 @@ namespace STWBot
 
 		static public void bot_UserUpdated(object user, Discord.UserUpdatedEventArgs e)
 		{
-			string usertype = "";
+			
+			//string usertype = "";
 			if (e.After.Roles.Count() < 2)
 			{
 				SetRoleIfPug(user, e);
 			}
+		/*
 			if (usertype != "" && usertype != "0" && usertype != "1")
 			{
 				e.Server.FindChannels("use-bots-here").FirstOrDefault().SendMessage(usertype);
 			}
+			*/
 
 			string rolesBefore = "";
 			string rolesAfter = "";
@@ -124,10 +147,15 @@ namespace STWBot
 
 			string beforeCurrentGame = "";
 			string afterCurrentGame = "";
+			bool isBot = false;
+			ulong userID = Convert.ToUInt64(000000000000000000);
+			ulong nadekoID = Convert.ToUInt64(116275390695079945);
 
 			if (e.Before.CurrentGame.HasValue)
 			{
 				beforeCurrentGame = e.Before.CurrentGame.Value.Name;
+				isBot = e.Before.IsBot;
+				userID = e.Before.Id;
 			}
 
 			if (e.After.CurrentGame.HasValue)
@@ -135,7 +163,7 @@ namespace STWBot
 				afterCurrentGame = e.After.CurrentGame.Value.Name;
 			}
 
-			if (beforeCurrentGame != afterCurrentGame)
+			if (beforeCurrentGame != afterCurrentGame && userID != nadekoID)
 			{
 				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's CURRENT GAME updated.\nOLD Game: " + beforeCurrentGame + "\nNEW Game: " + afterCurrentGame + "```" + stwb.logLineBreak);
 			}
@@ -151,25 +179,32 @@ namespace STWBot
 
 		static void SetRoleIfPug(object user, Discord.UserUpdatedEventArgs e)
 		{
+			
 			//Discord.Role everyoneRole = e.Server.FindRoles("@everyone").FirstOrDefault();
 			if (e.After.Roles.Count() > 1) return;
-
-			Discord.Channel chan = e.Server.FindChannels("__").FirstOrDefault();
-			Discord.Channel mainChannel = e.Server.FindChannels("██ SUM TING WONG￬").FirstOrDefault();
-			//string userType = "1";
-			if (e.After.VoiceChannel == null) return;
+			Console.WriteLine("SETTING ROLE!");
+			Discord.Channel chan = e.Server.GetChannel(306107185145053194); //PUG CHANNEL
+			Discord.Channel mainChannel = e.Server.GetChannel(303997237011152896); //SUMTINGWONG VOICE CHANNEL
+																				   //string userType = "1";
+			if (e.After.VoiceChannel == null)
+			{
+				Console.WriteLine("MEMBER NO CHANNEL!");
+				Discord.Role membersRole = e.Server.GetRole(Convert.ToUInt64(305921894513770499));
+				e.After.AddRoles(membersRole);
+				return;
+			}
 			if (e.After.VoiceChannel == chan)
 			{
+				Console.WriteLine("PUG!");
+				Discord.Role pugsRole = e.Server.GetRole(Convert.ToUInt64(306107573277425664));
 
-				Discord.Role pugsRole = e.Server.FindRoles("PUGS").FirstOrDefault();
-
-				//e.After.AddRoles(pugsRole);
+				e.After.AddRoles(pugsRole);
 
 				//System.Threading.Thread.Sleep(1000);
 
 				//e.Server.FindRoles("PUGS").FirstOrDefault();
 
-				List<Discord.Role> roles = new List<Discord.Role>(new Discord.Role[] { e.Server.FindRoles("PUGS").FirstOrDefault() });
+				List<Discord.Role> roles = new List<Discord.Role>(new Discord.Role[] { e.Server.GetRole(Convert.ToUInt64(306107573277425664)) });
 
 				e.After.Edit(voiceChannel: mainChannel, roles: roles);
 
@@ -178,7 +213,8 @@ namespace STWBot
 			}
 			else
 			{
-				Discord.Role membersRole = e.Server.FindRoles("MEMBERS").FirstOrDefault();
+				Console.WriteLine("MEMBER!");
+				Discord.Role membersRole = e.Server.GetRole(Convert.ToUInt64(305921894513770499));
 
 				e.After.AddRoles(membersRole);
 			}
