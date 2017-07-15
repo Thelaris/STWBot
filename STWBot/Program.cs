@@ -34,11 +34,13 @@ namespace STWBot
 
 	class MainClass
 	{
+		public static Token tokenRef = new Token();
+		
 		public static void Main(string[] args)
 		{
 			var bot = new Discord.DiscordClient();
 
-			string token = "TOKEN-GOES-HERE";
+			string token = tokenRef.token;
 
 			//Events
 
