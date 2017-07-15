@@ -155,7 +155,7 @@ namespace STWBot
 			if (e.After.Roles.Count() > 1) return;
 
 			Discord.Channel chan = e.Server.FindChannels("__").FirstOrDefault();
-			Discord.Channel mainChannel = e.Server.FindChannels("██ SUM TING WONG￬").FirstOrDefault();
+			Discord.Channel mainChannel = e.Server.FindChannels("Sum Ting Wong￬").FirstOrDefault();
 			//string userType = "1";
 			if (e.After.VoiceChannel == null) return;
 			if (e.After.VoiceChannel == chan)
