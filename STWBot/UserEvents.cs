@@ -124,10 +124,15 @@ namespace STWBot
 
 			string beforeCurrentGame = "";
 			string afterCurrentGame = "";
+			bool isBot = false;
+			ulong userID = Convert.ToUInt64(000000000000000000);
+			ulong nadekoID = Convert.ToUInt64(116275390695079945);
 
 			if (e.Before.CurrentGame.HasValue)
 			{
 				beforeCurrentGame = e.Before.CurrentGame.Value.Name;
+				isBot = e.Before.IsBot;
+				userID = e.Before.Id;
 			}
 
 			if (e.After.CurrentGame.HasValue)
@@ -135,7 +140,7 @@ namespace STWBot
 				afterCurrentGame = e.After.CurrentGame.Value.Name;
 			}
 
-			if (beforeCurrentGame != afterCurrentGame)
+			if (beforeCurrentGame != afterCurrentGame && userID != nadekoID)
 			{
 				e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.After.Mention + "\n```" + DateTime.Now.ToString("G") + "\n" + "- Above mentioned user's CURRENT GAME updated.\nOLD Game: " + beforeCurrentGame + "\nNEW Game: " + afterCurrentGame + "```" + stwb.logLineBreak);
 			}
