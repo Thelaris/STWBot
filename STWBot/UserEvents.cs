@@ -35,12 +35,14 @@ namespace STWBot
 		{
 			//System.Threading.Thread.Sleep(3000);
 
+			/* Conflicting
 			if (e.User.Roles.Count() < 2)
 			{
 				Discord.Role membersRole = e.Server.FindRoles("MEMBERS").FirstOrDefault();
 
 				e.User.AddRoles(membersRole);
 			}
+			*/
 
 			//e.Server.FindChannels(stwb.logChanName).First().SendMessage("```" + DateTime.Now.ToString("G") + "\n" + "- New user: @" + e.User.Name + " has joined the server. User ID: " + e.User.Id + "```");
 			//Discord.Message message = e.Server.FindChannels(stwb.logChanName).First().SendMessage(e.User.Mention).Result;
