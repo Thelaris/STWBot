@@ -56,7 +56,7 @@ namespace STWBot
 			string usertype = "";
 			if (e.After.Roles.Count() < 2)
 			{
-				SetRoleIfPug(user, e);
+				SetRole(user, e);
 			}
 			if (usertype != "" && usertype != "0" && usertype != "1")
 			{
@@ -156,7 +156,7 @@ namespace STWBot
 
 
 
-		static void SetRoleIfPug(object user, Discord.UserUpdatedEventArgs e)
+		static void SetRole(object user, Discord.UserUpdatedEventArgs e)
 		{
 			//Discord.Role everyoneRole = e.Server.FindRoles("@everyone").FirstOrDefault();
 			if (e.After.Roles.Count() > 1) return;
