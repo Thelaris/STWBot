@@ -64,7 +64,7 @@
     <Compile Include="UserEvents.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RoleEvents.cs" />
-    <Compile Include="Token.cs" />
+	<Compile Include="Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
