@@ -54,11 +54,21 @@ namespace STWBot
 		static public void bot_UserUpdated(object user, Discord.UserUpdatedEventArgs e)
 		{
 			string usertype = "";
-			System.Threading.Thread.Sleep(1000);
+			//System.Threading.Thread.Sleep(1000);
 			if (e.After.Roles.Count() < 2)
 			{
-				
 				SetRole(user, e);
+
+				System.Threading.Thread.Sleep(1000);
+
+				Discord.Role pugsRole = e.Server.FindRoles("PUGS").FirstOrDefault();
+				Discord.Role membersRole = e.Server.FindRoles("MEMBERS").FirstOrDefault();
+
+				if (!e.Server.FindUsers(e.After.Name, true).FirstOrDefault().HasRole(pugsRole) && e.Server.FindUsers(e.After.Name, true).FirstOrDefault().VoiceChannel != e.Server.FindChannels("__").FirstOrDefault())
+				{
+					e.Server.FindUsers(e.After.Name).FirstOrDefault().AddRoles(membersRole);
+				}
+
 			}
 			if (usertype != "" && usertype != "0" && usertype != "1")
 			{
@@ -160,7 +170,6 @@ namespace STWBot
 
 		static void SetRole(object user, Discord.UserUpdatedEventArgs e)
 		{
-			//Discord.Role everyoneRole = e.Server.FindRoles("@everyone").FirstOrDefault();
 			if (e.After.Roles.Count() > 1) return;
 
 			Discord.Channel chan = e.Server.FindChannels("__").FirstOrDefault();
@@ -168,35 +177,13 @@ namespace STWBot
 			//string userType = "1";
 			Discord.Role pugsRole = e.Server.FindRoles("PUGS").FirstOrDefault();
 
-
-
 			if (e.After.VoiceChannel == null) return;
 			if (e.After.VoiceChannel == chan)
 			{
-
-				//e.After.AddRoles(pugsRole);
-
-				//e.Server.FindRoles("PUGS").FirstOrDefault();
-
 				List<Discord.Role> roles = new List<Discord.Role>(new Discord.Role[] { e.Server.FindRoles("PUGS").FirstOrDefault() });
-
-				//System.Threading.Thread.Sleep(500);
-
 				e.After.Edit(voiceChannel: mainChannel, roles: roles);
-
-				//userType = "PUG";
 				return;
 			}
-			else
-			{
-				System.Threading.Thread.Sleep(500);
-				if (e.After.Roles.Equals(pugsRole)) return;
-				if (e.After.Roles.Count() > 0) return;
-				Discord.Role membersRole = e.Server.FindRoles("MEMBERS").FirstOrDefault();
-
-				e.After.AddRoles(membersRole);
-			}
-
 			return;
 		}
 	}
